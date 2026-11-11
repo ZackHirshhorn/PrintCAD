@@ -43,6 +43,11 @@ def _restricted_import(name, globals=None, locals=None, fromlist=(), level=0):
         raise ImportError(f"Import of '{name}' is not allowed in PrintCAD scripts")
     if root == "printcad" and name not in ("printcad", "printcad.tolerances"):
         raise ImportError(f"Import of '{name}' is not allowed in PrintCAD scripts")
+    if name == "printcad":
+        # `from printcad import X` passes X in fromlist; only the tolerances module is exposed.
+        for item in fromlist or ():
+            if item != "tolerances":
+                raise ImportError(f"Import of 'printcad.{item}' is not allowed in PrintCAD scripts")
     return builtins.__import__(name, globals, locals, fromlist, level)
 
 

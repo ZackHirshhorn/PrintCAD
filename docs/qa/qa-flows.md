@@ -265,6 +265,23 @@ Enclosure extras: lid and base both present, wall thickness meets the minimum fo
 2. **Regression (every PR):** sections 1, 2, 3 and 7 plus AN-01 to AN-05.
 3. **Full (before each release):** everything above including cross-browser UI and non-functional flows.
 
+## 10a. Automation status
+
+Every P0 flow is automated in `tests/qa/` and tagged `@pytest.mark.qa("<ID>")` plus `p0`
+(`pytest -m p0`). `test_every_p0_flow_in_the_qa_doc_is_automated` parses this document and fails
+if a P0 flow has no test, so adding a P0 flow here requires adding its test.
+
+| Module | Flows |
+| --- | --- |
+| `test_p0_baseline.py` | QA-00 (version, no-skip enforcement, P0 coverage) |
+| `test_p0_cli.py` | CLI-01, CLI-02, CLI-03, CLI-06, CLI-07 |
+| `test_p0_runner.py` | RUN-01, RUN-02, RUN-03 |
+| `test_p0_api.py` | API-01, API-02, API-03, API-05 |
+| `test_p0_analysis_export.py` | AN-01 to AN-05, EX-01, EX-02 |
+| `test_p0_ui.py` (marker `ui`) | UI-01, UI-02, UI-03, UI-04, UI-06 (headless Chromium, real WebGL, pixel checks) |
+
+Not automated inside pytest: the "fresh venv install" part of QA-00, which belongs in CI.
+
 ## 11. Defect reporting template
 
 ```
