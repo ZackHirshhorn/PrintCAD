@@ -98,9 +98,16 @@ def parse_stl(data: bytes) -> Mesh:
 
 def parse_3mf(data: bytes) -> Mesh:
     """Parse the first mesh object of a 3MF package (all objects are merged)."""
-    with zipfile.ZipFile(io.BytesIO(data)) as zf:
-        model = zf.read("3D/3dmodel.model")
-    root = ET.fromstring(model)
+    try:
+        with zipfile.ZipFile(io.BytesIO(data)) as zf:
+            model = zf.read("3D/3dmodel.model")
+        root = ET.fromstring(model)
+    except zipfile.BadZipFile:
+        raise ValueError("Not a valid 3MF file (not a zip archive)") from None
+    except KeyError:
+        raise ValueError("Not a valid 3MF file (missing 3D/3dmodel.model)") from None
+    except ET.ParseError as exc:
+        raise ValueError(f"Not a valid 3MF file (malformed model XML: {exc})") from None
     verts: list[list[float]] = []
     faces: list[list[int]] = []
     for mesh in root.iter():

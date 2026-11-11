@@ -90,8 +90,15 @@ Scripts are Python code. The runner restricts builtins and imports to catch mist
 
 ```bash
 pip install -e ".[dev]"
-pytest
+playwright install chromium   # browser for the web UI tests
+pytest                        # everything
+pytest -m p0                  # only the automated P0 QA flows (tests/qa/)
+pytest -m "p0 and not ui"     # P0 flows without the browser
 ```
+
+No test may be skipped: `tests/conftest.py` turns any skip or xfail into a failure. The UI tests drive
+the real server in headless Chromium with software WebGL; set `PRINTCAD_CHROMIUM=/path/to/chrome` to use
+a specific browser binary. QA flows are described in [docs/qa/qa-flows.md](docs/qa/qa-flows.md).
 
 The vendored three.js (r160, MIT) lives in `src/printcad/web/vendor/`.
 

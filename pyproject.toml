@@ -18,7 +18,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-dev = ["pytest>=8", "httpx>=0.27"]
+dev = ["pytest>=8", "httpx>=0.27", "playwright>=1.45"]
 
 [project.scripts]
 printcad = "printcad.cli:main"
@@ -31,4 +31,9 @@ printcad = ["web/*", "web/vendor/*", "examples/*.py"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = "-q"
+addopts = "-q --strict-markers"
+markers = [
+    "p0: P0 (release blocker) QA flow from docs/qa/qa-flows.md",
+    "qa(flow_id): links a test to a flow ID in docs/qa/qa-flows.md, e.g. qa('CLI-01')",
+    "ui: drives the web UI in a headless browser (needs `playwright install chromium`)",
+]
