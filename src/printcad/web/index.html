@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PrintCAD</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <script type="importmap">
+    { "imports": { "three": "/static/vendor/three.module.min.js" } }
+  </script>
+</head>
+<body>
+  <header>
+    <h1>PrintCAD</h1>
+    <label>Example <select id="example"></select></label>
+    <label>Printer <select id="printer"></select></label>
+    <label>Material <select id="material"></select></label>
+    <label>Overhang angle <input id="angle" type="number" min="1" max="89" value="45" step="1"></label>
+    <label>Infill % <input id="infill" type="number" min="0" max="100" value="20" step="5"></label>
+    <button id="run" class="primary">Run (Ctrl+Enter)</button>
+    <span class="spacer"></span>
+    <button data-export="stl">STL</button>
+    <button data-export="3mf">3MF</button>
+    <button data-export="step">STEP</button>
+  </header>
+  <main>
+    <section id="left">
+      <h2>Script</h2>
+      <textarea id="editor" spellcheck="false"></textarea>
+      <h2>Parameters</h2>
+      <div id="params"><p class="muted">Declare parameters with <code>param("name", default)</code>.</p></div>
+    </section>
+    <section id="center">
+      <div id="viewer"></div>
+      <div id="status" class="muted">Ready</div>
+      <div id="legend"><span class="swatch ok"></span> printable <span class="swatch bad"></span> needs support</div>
+    </section>
+    <section id="right">
+      <h2>Analysis</h2>
+      <div id="analysis"><p class="muted">Run a script to see printability results.</p></div>
+    </section>
+  </main>
+  <script type="module" src="/static/app.js"></script>
+</body>
+</html>
