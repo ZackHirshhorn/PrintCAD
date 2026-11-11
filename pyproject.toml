@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "printcad"
+version = "0.1.0"
+description = "Open source, 3D printing focused parametric CAD built on CadQuery, with a local web UI"
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.10"
+keywords = ["cad", "3d-printing", "cadquery", "parametric", "stl", "3mf"]
+dependencies = [
+    "cadquery>=2.4",
+    "fastapi>=0.110",
+    "uvicorn[standard]>=0.27",
+    "numpy>=1.24",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "httpx>=0.27"]
+
+[project.scripts]
+printcad = "printcad.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+printcad = ["web/*", "web/vendor/*", "examples/*.py"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
